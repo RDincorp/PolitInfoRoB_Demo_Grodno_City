@@ -1,0 +1,892 @@
+{
+  "countries": [
+    {
+      "id": "cnt-by",
+      "name": "Республика Беларусь",
+      "code": "BY",
+      "description": "Унитарное демократическое социально-правовое государство.",
+      "created_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "regions": [
+    {
+      "id": "reg-grodno",
+      "country_id": "cnt-by",
+      "name": "Гродненская область",
+      "type": "region",
+      "parent_id": null,
+      "created_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "territories": [
+    {
+      "id": "t-by",
+      "name": "Республика Беларусь",
+      "official_name": "Республика Беларусь",
+      "slug": "belarus",
+      "type": "country",
+      "parent_id": null,
+      "country_id": "cnt-by",
+      "region_id": null,
+      "description": "Государство в Восточной Европе.",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "t-grodno-obl",
+      "name": "Гродненская область",
+      "official_name": "Гродненская область",
+      "slug": "grodnenskaya-oblast",
+      "type": "region",
+      "parent_id": "t-by",
+      "country_id": "cnt-by",
+      "region_id": "reg-grodno",
+      "description": "Область на западе Республики Беларусь.",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "t-grodno",
+      "name": "Гродно",
+      "official_name": "город Гродно",
+      "slug": "grodno",
+      "type": "city",
+      "parent_id": "t-grodno-obl",
+      "country_id": "cnt-by",
+      "region_id": "reg-grodno",
+      "description": "Областной центр Гродненской области, один из старейших городов Беларуси.",
+      "status": "published",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.8258,
+          53.6693
+        ]
+      },
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "t-grodno-len",
+      "name": "Ленинский район г. Гродно",
+      "official_name": "Администрация Ленинского района г. Гродно",
+      "slug": "grodno-leninskiy",
+      "type": "urban_district",
+      "parent_id": "t-grodno",
+      "country_id": "cnt-by",
+      "region_id": "reg-grodno",
+      "description": "Административный район в северной и центральной части Гродно.",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "t-grodno-oct",
+      "name": "Октябрьский район г. Гродно",
+      "official_name": "Администрация Октябрьского района г. Гродно",
+      "slug": "grodno-oktyabrskiy",
+      "type": "urban_district",
+      "parent_id": "t-grodno",
+      "country_id": "cnt-by",
+      "region_id": "reg-grodno",
+      "description": "Административный район в южной части Гродно.",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "institutions": [
+    {
+      "id": "inst-president",
+      "name": "Президент Республики Беларусь",
+      "official_name": "Президент Республики Беларусь",
+      "short_name": "Президент РБ",
+      "slug": "president-rb",
+      "type": "executive",
+      "level": "national",
+      "territory_id": "t-by",
+      "address": "г. Минск, ул. Карла Маркса, 38",
+      "website": "https://president.gov.by",
+      "description": "Глава государства, гарант Конституции Республики Беларусь, прав и свобод человека и гражданина.",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "inst-house",
+      "name": "Палата представителей Национального собрания Республики Беларусь",
+      "official_name": "Палата представителей Национального собрания Республики Беларусь",
+      "short_name": "Палата представителей",
+      "slug": "palata-predstaviteley",
+      "type": "representative",
+      "level": "national",
+      "territory_id": "t-by",
+      "address": "г. Минск, ул. Советская, 11 (Дом Правительства)",
+      "website": "http://house.gov.by",
+      "description": "Палата парламента Республики Беларусь, состоящая из 110 депутатов, избираемых по мажоритарным округам.",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "inst-sovrep",
+      "name": "Совет Республики Национального собрания Республики Беларусь",
+      "official_name": "Совет Республики Национального собрания Республики Беларусь",
+      "short_name": "Совет Республики",
+      "slug": "sovet-respubliki",
+      "type": "representative",
+      "level": "national",
+      "territory_id": "t-by",
+      "address": "г. Минск, ул. Красноармейская, 9",
+      "website": "http://sovrep.gov.by",
+      "description": "Палата территориального представительства парламента Республики Беларусь.",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "inst-gov",
+      "name": "Совет Министров Республики Беларусь",
+      "official_name": "Совет Министров Республики Беларусь — Правительство Республики Беларусь",
+      "short_name": "Совет Министров (Правительство)",
+      "slug": "sovet-ministrov",
+      "type": "executive",
+      "level": "national",
+      "territory_id": "t-by",
+      "address": "г. Минск, ул. Советская, 11",
+      "website": "http://government.by",
+      "description": "Центральный орган государственного управления Республики Беларусь.",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "inst-grodno-soviet",
+      "name": "Гродненский городской Совет депутатов",
+      "official_name": "Гродненский городской Совет депутатов 29-го созыва",
+      "short_name": "Гродненский горсовет",
+      "slug": "grodnenskiy-gorodskoy-sovet-deputatov",
+      "type": "representative",
+      "level": "city",
+      "territory_id": "t-grodno",
+      "address": "230023, г. Гродно, пл. Ленина, 2/1",
+      "phone": "+375 (152) 62-60-50",
+      "email": "gorsovet@grodno.gov.by",
+      "website": "https://grodno.gov.by/gorsovet",
+      "working_hours": "Понедельник – пятница: 8.00 – 17.00, обед: 13.00 – 14.00",
+      "description": "Представительный государственный орган на территории города Гродно, состоящий из 30 депутатов 29-го созыва.",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "inst-grodno-ispolkom",
+      "name": "Гродненский городской исполнительный комитет",
+      "official_name": "Гродненский городской исполнительный комитет",
+      "short_name": "Гродненский горисполком",
+      "slug": "grodnenskiy-gorodskoy-ispolnitelnyy-komitet",
+      "type": "executive",
+      "level": "city",
+      "territory_id": "t-grodno",
+      "address": "230023, г. Гродно, пл. Ленина, 2/1",
+      "phone": "+375 (152) 62-60-00",
+      "email": "gik@grodno.gov.by",
+      "website": "https://grodno.gov.by",
+      "working_hours": "Понедельник – пятница: 8.00 – 17.00, обед: 13.00 – 14.00",
+      "description": "Исполнительный и распорядительный орган на территории города Гродно с правами юридического лица.",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "inst-admin-len",
+      "name": "Администрация Ленинского района г. Гродно",
+      "official_name": "Администрация Ленинского района г. Гродно",
+      "short_name": "Администрация Ленинского р-на",
+      "slug": "administratsiya-leninskogo-rayona-grodno",
+      "type": "executive",
+      "level": "district",
+      "territory_id": "t-grodno-len",
+      "parent_institution_id": "inst-grodno-ispolkom",
+      "address": "230005, г. Гродно, ул. Советская, 14",
+      "phone": "+375 (152) 76-80-00",
+      "website": "https://a-len.grodno.by",
+      "description": "Местный орган управления на территории Ленинского района города Гродно.",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "inst-admin-oct",
+      "name": "Администрация Октябрьского района г. Гродно",
+      "official_name": "Администрация Октябрьского района г. Гродно",
+      "short_name": "Администрация Октябрьского р-на",
+      "slug": "administratsiya-oktyabrskogo-rayona-grodno",
+      "type": "executive",
+      "level": "district",
+      "territory_id": "t-grodno-oct",
+      "parent_institution_id": "inst-grodno-ispolkom",
+      "address": "230011, г. Гродно, ул. Гагарина, 18/2",
+      "phone": "+375 (152) 49-06-90",
+      "website": "https://a-okt.grodno.by",
+      "description": "Местный орган управления на территории Октябрьского района города Гродно.",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "inst-court-len",
+      "name": "Суд Ленинского района г. Гродно",
+      "official_name": "Суд Ленинского района г. Гродно",
+      "short_name": "Суд Ленинского р-на",
+      "slug": "sud-leninskogo-rayona-grodno",
+      "type": "judicial",
+      "level": "district",
+      "territory_id": "t-grodno-len",
+      "address": "230023, г. Гродно, ул. Дзержинского, 1",
+      "phone": "+375 (152) 74-32-10",
+      "website": "http://court.gov.by",
+      "description": "Суд первой инстанции общей юрисдикции по гражданским, уголовным и административным делам.",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "departments": [
+    {
+      "id": "dept-zhkh",
+      "institution_id": "inst-grodno-ispolkom",
+      "parent_department_id": null,
+      "name": "Отдел жилищно-коммунального хозяйства",
+      "slug": "otdel-zhkh",
+      "description": "Реализация государственной политики в сфере ЖКХ, благоустройства и санитарного состояния города.",
+      "address": "г. Гродно, пл. Ленина, 2/1",
+      "phone": "+375 (152) 62-60-35",
+      "working_hours": "8.00 – 17.00, обед 13.00 – 14.00",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "dept-arch",
+      "institution_id": "inst-grodno-ispolkom",
+      "parent_department_id": null,
+      "name": "Управление архитектуры и градостроительства",
+      "slug": "upravlenie-arhitektury-i-gradostroitelstva",
+      "description": "Осуществление архитектурной и градостроительной деятельности, контроль за застройкой города Гродно.",
+      "address": "г. Гродно, пл. Антония Тызенгауза, 3",
+      "phone": "+375 (152) 62-69-90",
+      "working_hours": "8.00 – 17.00, обед 13.00 – 14.00",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "dept-edu",
+      "institution_id": "inst-grodno-ispolkom",
+      "parent_department_id": null,
+      "name": "Отдел образования",
+      "slug": "otdel-obrazovaniya",
+      "description": "Координация работы учреждений общего среднего, дошкольного и специального образования города.",
+      "address": "г. Гродно, ул. Ленина, 2/1",
+      "phone": "+375 (152) 62-60-60",
+      "working_hours": "8.00 – 17.00, обед 13.00 – 14.00",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "dept-zags",
+      "institution_id": "inst-grodno-ispolkom",
+      "parent_department_id": null,
+      "name": "Отдел загса Гродненского горисполкома",
+      "slug": "otdel-zags-grodno",
+      "description": "Регистрация актов гражданского состояния (рождение, брак, расторжение брака, установление отцовства, перемена имени, смерть).",
+      "address": "г. Гродно, ул. Виленская, 1",
+      "phone": "+375 (152) 74-50-60",
+      "working_hours": "Вторник – суббота: 8.00 – 17.00",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "people": [
+    {
+      "id": "p-fedorov",
+      "full_name": "Фёдоров Олег Геннадьевич",
+      "first_name": "Олег",
+      "last_name": "Фёдоров",
+      "middle_name": "Геннадьевич",
+      "slug": "fedorov-oleg-gennadevich",
+      "photo_url": null,
+      "biography": "Председатель Гродненского городского Совета депутатов 29-го созыва.",
+      "official_profile_url": "https://grodno.gov.by/gorsovet/deputies/fedorov",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "p-khmel",
+      "full_name": "Хмель Андрей Валерьевич",
+      "first_name": "Андрей",
+      "last_name": "Хмель",
+      "middle_name": "Валерьевич",
+      "slug": "khmel-andrey-valerevich",
+      "photo_url": null,
+      "biography": "Председатель Гродненского городского исполнительного комитета.",
+      "official_profile_url": "https://grodno.gov.by/ispolkom/rukovodstvo/khmel",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "p-ivanov-okr1",
+      "full_name": "Белявский Александр Сергеевич",
+      "first_name": "Александр",
+      "last_name": "Белявский",
+      "middle_name": "Сергеевич",
+      "slug": "belyavskiy-aleksandr-sergeevich",
+      "photo_url": null,
+      "biography": "Депутат Гродненского городского Совета депутатов по избирательному округу № 1.",
+      "official_profile_url": "https://grodno.gov.by/gorsovet/deputies/belyavskiy",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "p-kozlov-okr2",
+      "full_name": "Козлова Елена Викторовна",
+      "first_name": "Елена",
+      "last_name": "Козлова",
+      "middle_name": "Викторовна",
+      "slug": "kozlova-elena-viktorovna",
+      "photo_url": null,
+      "biography": "Депутат Гродненского городского Совета депутатов по избирательному округу № 2.",
+      "official_profile_url": "https://grodno.gov.by/gorsovet/deputies/kozlova",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "p-morozov-okr3",
+      "full_name": "Морозов Дмитрий Николаевич",
+      "first_name": "Дмитрий",
+      "last_name": "Морозов",
+      "middle_name": "Николаевич",
+      "slug": "morozov-dmitriy-nikolaevich",
+      "photo_url": null,
+      "biography": "Депутат Гродненского городского Совета депутатов по избирательному округу № 3.",
+      "official_profile_url": "https://grodno.gov.by/gorsovet/deputies/morozov",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "reception_schedule": "Второй и четвертый вторник месяца: 16.00 – 19.00",
+      "id": "p-1786801024123",
+      "status": "published",
+      "created_at": "2026-08-15T13:37:04.123Z",
+      "updated_at": "2026-08-15T13:37:04.123Z"
+    }
+  ],
+  "positions": [
+    {
+      "id": "pos-gorsovet-pred",
+      "name": "Председатель Гродненского городского Совета депутатов",
+      "institution_id": "inst-grodno-soviet",
+      "department_id": null,
+      "territory_id": "t-grodno",
+      "description": "Руководство деятельностью городского Совета депутатов, президиума и организация сессий.",
+      "is_leadership": true,
+      "created_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "pos-gorsovet-deputy",
+      "name": "Депутат Гродненского городского Совета депутатов 29-го созыва",
+      "institution_id": "inst-grodno-soviet",
+      "department_id": null,
+      "territory_id": "t-grodno",
+      "description": "Представитель избирателей округа в городском Совете депутатов.",
+      "is_leadership": false,
+      "created_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "pos-grodno-mayor",
+      "name": "Председатель Гродненского городского исполнительного комитета",
+      "institution_id": "inst-grodno-ispolkom",
+      "department_id": null,
+      "territory_id": "t-grodno",
+      "description": "Высшее должностное лицо исполнительной власти города Гродно.",
+      "is_leadership": true,
+      "created_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "person_positions": [
+    {
+      "id": "pp-fedorov-1",
+      "person_id": "p-fedorov",
+      "position_id": "pos-gorsovet-pred",
+      "start_date": "2024-03-05",
+      "end_date": null,
+      "reception_schedule": "Первая среда месяца: 8.00 – 13.00 (каб. 101)",
+      "reception_address": "г. Гродно, пл. Ленина, 2/1",
+      "reception_phone": "+375 (152) 62-60-50",
+      "status": "published",
+      "source_id": "src-gorsovet-official",
+      "created_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "pp-khmel-1",
+      "person_id": "p-khmel",
+      "position_id": "pos-grodno-mayor",
+      "start_date": "2023-05-30",
+      "end_date": null,
+      "reception_schedule": "Первая и третья среда месяца: 8.00 – 13.00",
+      "reception_address": "г. Гродно, пл. Ленина, 2/1",
+      "reception_phone": "+375 (152) 62-60-00",
+      "status": "published",
+      "source_id": "src-ispolkom-official",
+      "created_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "pp-belyavskiy-1",
+      "person_id": "p-ivanov-okr1",
+      "position_id": "pos-gorsovet-deputy",
+      "start_date": "2024-02-25",
+      "end_date": null,
+      "reception_schedule": "Второй вторник месяца: 16.00 – 18.00",
+      "reception_address": "г. Гродно, ул. Советская, 14",
+      "reception_phone": "+375 (152) 76-80-12",
+      "status": "published",
+      "source_id": "src-gorsovet-official",
+      "created_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "pp-kozlova-1",
+      "person_id": "p-kozlov-okr2",
+      "position_id": "pos-gorsovet-deputy",
+      "start_date": "2024-02-25",
+      "end_date": null,
+      "reception_schedule": "Третий четверг месяца: 17.00 – 19.00",
+      "reception_address": "г. Гродно, ул. Горького, 72 (СШ № 28)",
+      "reception_phone": "+375 (152) 48-12-34",
+      "status": "published",
+      "source_id": "src-gorsovet-official",
+      "created_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "pp-morozov-1",
+      "person_id": "p-morozov-okr3",
+      "position_id": "pos-gorsovet-deputy",
+      "start_date": "2024-02-25",
+      "end_date": null,
+      "reception_schedule": "Первый понедельник месяца: 15.00 – 17.00",
+      "reception_address": "г. Гродно, ул. Дзержинского, 40",
+      "reception_phone": "+375 (152) 74-56-78",
+      "status": "published",
+      "source_id": "src-gorsovet-official",
+      "created_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "electoral_districts": [
+    {
+      "id": "dist-grodno-1",
+      "name": "Центральный избирательный округ № 1",
+      "number": 1,
+      "slug": "tsentralnyy-izbiratelnyy-okrug-1",
+      "level": "city_council",
+      "territory_id": "t-grodno",
+      "description": "Центральная историческая часть города Гродно в границах Ленинского района.",
+      "boundaries_description": "Улицы: Советская, Замковая, Большая Троицкая, Ожешко (дома 1–25), Кирова, Калючинская, Карла Маркса (нечетная сторона), площади: Ленина, Советская, Тызенгауза.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.82,
+              53.675
+            ],
+            [
+              23.835,
+              53.68
+            ],
+            [
+              23.84,
+              53.67
+            ],
+            [
+              23.825,
+              53.665
+            ],
+            [
+              23.82,
+              53.675
+            ]
+          ]
+        ]
+      },
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "dist-grodno-2",
+      "name": "Северный избирательный округ № 2",
+      "number": 2,
+      "slug": "severnyy-izbiratelnyy-okrug-2",
+      "level": "city_council",
+      "territory_id": "t-grodno",
+      "description": "Северный жилой сектор вдоль ул. Максима Горького и бульвара Ленинского Комсомола.",
+      "boundaries_description": "Улицы: Максима Горького (дома 50–92), бульвар Ленинского Комсомола (дома 1–21), Комарова, Врублевского (дома 1–15).",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.81,
+              53.69
+            ],
+            [
+              23.83,
+              53.705
+            ],
+            [
+              23.845,
+              53.695
+            ],
+            [
+              23.825,
+              53.685
+            ],
+            [
+              23.81,
+              53.69
+            ]
+          ]
+        ]
+      },
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "dist-grodno-3",
+      "name": "Девятовский избирательный округ № 3",
+      "number": 3,
+      "slug": "devyatovskiy-izbiratelnyy-okrug-3",
+      "level": "city_council",
+      "territory_id": "t-grodno",
+      "description": "Микрорайон Девятовка в границах улиц Дзержинского и Лиможа.",
+      "boundaries_description": "Улицы: Дзержинского (дома 80–125), Лиможа (дома 1–32), Курчатова (дома 20–44), Белые Росы (дома 1–19).",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.84,
+              53.7
+            ],
+            [
+              23.865,
+              53.715
+            ],
+            [
+              23.88,
+              53.705
+            ],
+            [
+              23.855,
+              53.69
+            ],
+            [
+              23.84,
+              53.7
+            ]
+          ]
+        ]
+      },
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "person_districts": [
+    {
+      "id": "pd-1",
+      "person_id": "p-ivanov-okr1",
+      "district_id": "dist-grodno-1",
+      "valid_from": "2024-02-25",
+      "valid_to": null,
+      "status": "published",
+      "source_id": "src-gorsovet-official",
+      "created_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "pd-2",
+      "person_id": "p-kozlov-okr2",
+      "district_id": "dist-grodno-2",
+      "valid_from": "2024-02-25",
+      "valid_to": null,
+      "status": "published",
+      "source_id": "src-gorsovet-official",
+      "created_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "pd-3",
+      "person_id": "p-morozov-okr3",
+      "district_id": "dist-grodno-3",
+      "valid_from": "2024-02-25",
+      "valid_to": null,
+      "status": "published",
+      "source_id": "src-gorsovet-official",
+      "created_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "competences": [
+    {
+      "id": "comp-zhkh",
+      "name": "Жилищно-коммунальные вопросы и благоустройство",
+      "slug": "zhilischno-kommunalnye-voprosy",
+      "description": "Вопросы текущего и капитального ремонта многоквартирных жилых домов, уборки дворовых территорий, освещения улиц, водоснабжения, отопления и вывоза ТКО.",
+      "category": "ЖКХ и благоустройство",
+      "institution_id": "inst-grodno-ispolkom",
+      "department_id": "dept-zhkh",
+      "territory_id": "t-grodno",
+      "legal_basis": "Закон Республики Беларусь «О местном управлении и самоуправлении в Республике Беларусь»",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "comp-arch",
+      "name": "Архитектура, строительство и перепланировка",
+      "slug": "arhitektura-i-gradostroitelstvo",
+      "description": "Согласование проектной документации, перепланировки и реконструкции жилых и нежилых помещений, выдача разрешений на строительство.",
+      "category": "Строительство и архитектура",
+      "institution_id": "inst-grodno-ispolkom",
+      "department_id": "dept-arch",
+      "territory_id": "t-grodno",
+      "legal_basis": "Кодекс Республики Беларусь об архитектурной, градостроительной и строительной деятельности",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "comp-edu",
+      "name": "Дошкольное и школьное образование",
+      "slug": "doshkolnoe-i-shkolnoe-obrazovanie",
+      "description": "Постановка на учет детей для направления в учреждения дошкольного образования, организация учебного процесса в школах и гимназиях.",
+      "category": "Образование",
+      "institution_id": "inst-grodno-ispolkom",
+      "department_id": "dept-edu",
+      "territory_id": "t-grodno",
+      "legal_basis": "Кодекс Республики Беларусь об образовании",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "comp-zags",
+      "name": "Регистрация актов гражданского состояния",
+      "slug": "registratsiya-aktov-grazhdanskogo-sostoyaniya",
+      "description": "Регистрация рождения, заключения брака, расторжения брака, установления отцовства, усыновления (удочерения), перемены фамилии, имени, отчества, смерти.",
+      "category": "Гражданское состояние",
+      "institution_id": "inst-grodno-ispolkom",
+      "department_id": "dept-zags",
+      "territory_id": "t-grodno",
+      "legal_basis": "Кодекс Республики Беларусь о браке и семье",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "legal_documents": [
+    {
+      "id": "doc-const",
+      "title": "Конституция Республики Беларусь",
+      "document_type": "Основной Закон",
+      "number": "1994",
+      "date": "1994-03-15",
+      "status": "published",
+      "url": "https://pravo.by/pravovaya-informatsiya/normativnye-dokumenty/konstitutsiya-respubliki-belarus/",
+      "description": "Основной Закон Республики Беларусь с изменениями и дополнениями.",
+      "institution_id": "inst-president",
+      "created_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "doc-local-gov",
+      "title": "Закон Республики Беларусь «О местном управлении и самоуправлении в Республике Беларусь»",
+      "document_type": "Закон",
+      "number": "108-З",
+      "date": "2010-01-04",
+      "status": "published",
+      "url": "https://pravo.by/document/?guid=3871&p0=H11000108",
+      "description": "Закон устанавливает порядок организации и деятельности органов местного управления и самоуправления.",
+      "institution_id": "inst-grodno-soviet",
+      "created_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-gorsovet-official",
+      "title": "Гродненский городской Совет депутатов — Официальный портал Гродненского горисполкома",
+      "url": "https://grodno.gov.by/gorsovet",
+      "source_type": "web_page",
+      "publisher": "Гродненский городской исполнительный комитет",
+      "allowed_domain": "grodno.gov.by",
+      "provided_by_user": true,
+      "provided_at": "2026-08-15T12:00:00Z",
+      "check_frequency": "еженедельно",
+      "requires_review": true,
+      "description": "Официальный раздел Гродненского городского Совета депутатов: структура 29-го созыва, депутаты, округа, график приёма граждан.",
+      "status": "active",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "src-ispolkom-official",
+      "title": "Официальный сайт Гродненского городского исполнительного комитета",
+      "url": "https://grodno.gov.by",
+      "source_type": "web_page",
+      "publisher": "Гродненский городской исполнительный комитет",
+      "allowed_domain": "grodno.gov.by",
+      "provided_by_user": true,
+      "provided_at": "2026-08-15T12:00:00Z",
+      "check_frequency": "еженедельно",
+      "requires_review": true,
+      "description": "Структура исполнительной власти города Гродно, руководство горисполкома, службы и подразделения.",
+      "status": "active",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "src-pravo-by",
+      "title": "Национальный правовой Интернет-портал Республики Беларусь (Pravo.by)",
+      "url": "https://pravo.by",
+      "source_type": "registry",
+      "publisher": "Национальный центр правовой информации Республики Беларусь",
+      "allowed_domain": "pravo.by",
+      "provided_by_user": true,
+      "provided_at": "2026-08-15T12:00:00Z",
+      "check_frequency": "ежемесячно",
+      "requires_review": true,
+      "description": "Официальное опубликование правовых актов Республики Беларусь.",
+      "status": "active",
+      "created_at": "2026-08-15T12:00:00Z",
+      "updated_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "source_snapshots": [
+    {
+      "id": "snap-gorsovet-2026-08-15",
+      "source_id": "src-gorsovet-official",
+      "retrieved_at": "2026-08-15T12:00:00Z",
+      "content_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "parser_version": "1.0.0",
+      "raw_content_path": "snapshots/grodno_gov_by_gorsovet_20260815.html",
+      "content_type": "text/html",
+      "status": "success",
+      "created_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "extracted_records": [],
+  "entity_sources": [
+    {
+      "id": "es-1",
+      "entity_type": "institution",
+      "entity_id": "inst-grodno-soviet",
+      "field_name": null,
+      "source_id": "src-gorsovet-official",
+      "source_snapshot_id": "snap-gorsovet-2026-08-15",
+      "verified_at": "2026-08-15T12:00:00Z",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "es-2",
+      "entity_type": "person",
+      "entity_id": "p-fedorov",
+      "field_name": "reception_schedule",
+      "source_id": "src-gorsovet-official",
+      "source_snapshot_id": "snap-gorsovet-2026-08-15",
+      "verified_at": "2026-08-15T12:00:00Z",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "es-3",
+      "entity_type": "district",
+      "entity_id": "dist-grodno-1",
+      "field_name": "boundaries_description",
+      "source_id": "src-gorsovet-official",
+      "source_snapshot_id": "snap-gorsovet-2026-08-15",
+      "verified_at": "2026-08-15T12:00:00Z",
+      "status": "published",
+      "created_at": "2026-08-15T12:00:00Z"
+    },
+    {
+      "id": "es-1786801024123-aronc",
+      "entity_type": "person",
+      "entity_id": "p-1786801024123",
+      "source_id": "src-gorsovet-official",
+      "source_snapshot_id": "snap-gorsovet-2026-08-15",
+      "verified_at": "2026-08-15T13:37:04.123Z",
+      "status": "published",
+      "created_at": "2026-08-15T13:37:04.123Z"
+    }
+  ],
+  "review_queue": [
+    {
+      "id": "rq-sample-1",
+      "entity_type": "person",
+      "entity_id": "p-ivanov-okr1",
+      "change_type": "update",
+      "old_data": {
+        "reception_schedule": "Второй вторник месяца: 16.00 – 18.00"
+      },
+      "new_data": {
+        "reception_schedule": "Второй и четвертый вторник месяца: 16.00 – 19.00"
+      },
+      "diff_summary": {
+        "reception_schedule": {
+          "old": "Второй вторник месяца: 16.00 – 18.00",
+          "new": "Второй и четвертый вторник месяца: 16.00 – 19.00"
+        }
+      },
+      "source_id": "src-gorsovet-official",
+      "source_snapshot_id": "snap-gorsovet-2026-08-15",
+      "status": "approved",
+      "reviewed_by": "TestAdmin",
+      "reviewed_at": "2026-08-15T13:37:04.124Z",
+      "reviewer_notes": null,
+      "created_at": "2026-08-15T14:30:00Z"
+    }
+  ],
+  "audit_logs": [
+    {
+      "id": "log-1",
+      "user_id": "system",
+      "action": "INITIAL_SEED_LOAD",
+      "entity_type": "all",
+      "entity_id": null,
+      "details": {
+        "count": 30
+      },
+      "created_at": "2026-08-15T12:00:00Z"
+    }
+  ],
+  "parser_logs": [
+    {
+      "id": "plog-1",
+      "source_id": "src-gorsovet-official",
+      "source_snapshot_id": "snap-gorsovet-2026-08-15",
+      "status": "success",
+      "records_extracted": 35,
+      "records_queued": 1,
+      "duration_ms": 240,
+      "created_at": "2026-08-15T12:00:00Z"
+    }
+  ]
+}
