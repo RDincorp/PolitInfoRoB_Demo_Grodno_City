@@ -270,11 +270,26 @@ export class DBRepository {
       );
 
       for (const d of matchedDistricts.slice(0, 10)) {
+        const pDist = s.person_districts.find((pd) => pd.district_id === d.id && pd.status === 'published');
+        const person = pDist ? s.people.find((p) => p.id === pDist.person_id) : null;
+
+        let streetSnippet = d.boundaries_description;
+        if (clean.length > 2 && d.boundaries_description) {
+          const lowerDesc = d.boundaries_description.toLowerCase();
+          const matchIdx = lowerDesc.indexOf(clean);
+          if (matchIdx !== -1) {
+            const start = Math.max(0, matchIdx - 30);
+            const end = Math.min(d.boundaries_description.length, matchIdx + clean.length + 50);
+            streetSnippet = (start > 0 ? '...' : '') + d.boundaries_description.substring(start, end) + (end < d.boundaries_description.length ? '...' : '');
+          }
+        }
+
         results.push({
           id: d.id,
           type: 'district',
           title: `Округ №${d.number}: ${d.name}`,
-          subtitle: `Избирательный округ (${d.level})`,
+          subtitle: person ? `Депутат: ${person.full_name}` : `Избирательный округ (${d.level})`,
+          description: streetSnippet,
           url: `/districts/${d.slug}`,
           badge: 'Округ',
         });

@@ -385,10 +385,10 @@
     },
     {
       "reception_schedule": "Второй и четвертый вторник месяца: 16.00 – 19.00",
-      "id": "p-1786801024123",
+      "id": "p-1786829429373",
       "status": "published",
-      "created_at": "2026-08-15T13:37:04.123Z",
-      "updated_at": "2026-08-15T13:37:04.123Z"
+      "created_at": "2026-08-15T21:30:29.373Z",
+      "updated_at": "2026-08-15T21:30:29.374Z"
     }
   ],
   "positions": [
@@ -827,14 +827,14 @@
       "created_at": "2026-08-15T12:00:00Z"
     },
     {
-      "id": "es-1786801024123-aronc",
+      "id": "es-1786829429374-7m0j2",
       "entity_type": "person",
-      "entity_id": "p-1786801024123",
+      "entity_id": "p-1786829429373",
       "source_id": "src-gorsovet-official",
       "source_snapshot_id": "snap-gorsovet-2026-08-15",
-      "verified_at": "2026-08-15T13:37:04.123Z",
+      "verified_at": "2026-08-15T21:30:29.374Z",
       "status": "published",
-      "created_at": "2026-08-15T13:37:04.123Z"
+      "created_at": "2026-08-15T21:30:29.374Z"
     }
   ],
   "review_queue": [
@@ -859,7 +859,7 @@
       "source_snapshot_id": "snap-gorsovet-2026-08-15",
       "status": "approved",
       "reviewed_by": "TestAdmin",
-      "reviewed_at": "2026-08-15T13:37:04.124Z",
+      "reviewed_at": "2026-08-15T21:30:29.374Z",
       "reviewer_notes": null,
       "created_at": "2026-08-15T14:30:00Z"
     }
