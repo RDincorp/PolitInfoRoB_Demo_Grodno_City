@@ -37,7 +37,9 @@ jobs:
         env:
           GITHUB_PAGES: 'true'
           NEXT_PUBLIC_BASE_PATH: '/PolitInfoRoB_Demo_Grodno_City'
-        run: npm run build
+        run: |
+          npm run build
+          touch ./out/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
