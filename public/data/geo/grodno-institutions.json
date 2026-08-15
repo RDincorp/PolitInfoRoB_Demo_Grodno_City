@@ -1,0 +1,119 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "inst-gorispolkom",
+        "name": "Гродненский городской исполнительный комитет",
+        "slug": "grodno-gorispolkom",
+        "type": "executive",
+        "category": "Исполнительная власть",
+        "address": "230023, г. Гродно, пл. Ленина, 2/1",
+        "phone": "+375 (152) 62-69-00",
+        "work_schedule": "Пн–Пт 08:00–17:00 (обед 13:00–14:00)",
+        "head": "Хмель Андрей Валерьевич (Председатель)",
+        "icon": "building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [23.8344, 53.6844]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "inst-gorsovet",
+        "name": "Гродненский городской Совет депутатов 29-го созыва",
+        "slug": "grodno-gorsovet",
+        "type": "representative",
+        "category": "Представительная власть",
+        "address": "230023, г. Гродно, пл. Ленина, 2/1",
+        "phone": "+375 (152) 62-69-10",
+        "work_schedule": "Пн–Пт 08:30–17:30",
+        "head": "Фёдоров Олег Геннадьевич (Председатель)",
+        "icon": "users"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [23.8348, 53.6846]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "inst-admin-leninsky",
+        "name": "Администрация Ленинского района г. Гродно",
+        "slug": "admin-leninsky",
+        "type": "executive",
+        "category": "Районная администрация",
+        "address": "230023, г. Гродно, ул. Советская, 14",
+        "phone": "+375 (152) 72-03-34",
+        "work_schedule": "Пн–Пт 08:00–17:00",
+        "head": "Бобырь Игорь Михайлович (Глава администрации)",
+        "icon": "building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [23.8315, 53.6802]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "inst-admin-oktyabrsky",
+        "name": "Администрация Октябрьского района г. Гродно",
+        "slug": "admin-oktyabrsky",
+        "type": "executive",
+        "category": "Районная администрация",
+        "address": "230025, г. Гродно, ул. Гагарина, 18/2",
+        "phone": "+375 (152) 49-06-90",
+        "work_schedule": "Пн–Пт 08:00–17:00",
+        "head": "Белинский Олег Геннадьевич (Глава администрации)",
+        "icon": "building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [23.8228, 53.6713]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "inst-court-grodno",
+        "name": "Суд Ленинского района г. Гродно",
+        "slug": "court-leninsky",
+        "type": "judicial",
+        "category": "Судебная власть",
+        "address": "230023, г. Гродно, ул. Дзержинского, 1",
+        "phone": "+375 (152) 62-21-00",
+        "work_schedule": "Пн–Пт 09:00–18:00",
+        "head": "Председатель суда",
+        "icon": "landmark"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [23.8370, 53.6872]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "inst-zhkh",
+        "name": "КУП «Жилищно-коммунальное хозяйство Гродненского горисполкома»",
+        "slug": "zhkh-grodno",
+        "type": "service",
+        "category": "Городские службы / ЖКХ",
+        "address": "230023, г. Гродно, ул. Кирова, 32",
+        "phone": "+375 (152) 62-11-20 (Диспетчерская: 115)",
+        "work_schedule": "Пн–Пт 08:00–17:00 (Аварийная служба: 24/7)",
+        "head": "Генеральный директор",
+        "icon": "wrench"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [23.8395, 53.6785]
+      }
+    }
+  ]
+}
