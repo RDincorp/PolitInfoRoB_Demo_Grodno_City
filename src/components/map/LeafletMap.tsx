@@ -367,6 +367,7 @@ export const LeafletMap: React.FC<Props> = ({
                   reception_schedule: props.reception_schedule,
                   admin_district: props.admin_district,
                   boundaries: props.boundaries,
+                  photo_url: props.photo_url,
                   url: `/districts/${props.slug}`,
                   badge: 'Избирательный округ горсовета',
                 };
@@ -752,18 +753,40 @@ export const LeafletMap: React.FC<Props> = ({
                   <span className="text-[10px] font-bold uppercase tracking-wider text-purple-900 block">
                     Избранный депутат:
                   </span>
-                  <p className="text-sm font-bold text-slate-900">
-                    {selectedEntity.deputy_name}
-                  </p>
-                  {selectedEntity.deputy_position && (
-                    <p className="text-xs text-slate-600">
-                      {selectedEntity.deputy_position}
-                    </p>
-                  )}
+                  <div className="flex items-start gap-3">
+                    {selectedEntity.photo_url && (
+                      <img
+                        src={selectedEntity.photo_url}
+                        alt={selectedEntity.deputy_name}
+                        className="w-12 h-12 rounded-md object-cover object-top border border-purple-200 shrink-0 shadow-sm"
+                      />
+                    )}
+                    <div>
+                      <p className="text-sm font-bold text-slate-900">
+                        {selectedEntity.deputy_name}
+                      </p>
+                      {selectedEntity.deputy_position && (
+                        <p className="text-xs text-slate-600 mt-0.5">
+                          {selectedEntity.deputy_position}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                   {selectedEntity.reception_schedule && (
                     <div className="pt-2 border-t border-purple-200 text-xs text-purple-950 flex items-start gap-1.5">
                       <Calendar className="w-3.5 h-3.5 text-purple-700 mt-0.5 shrink-0" />
                       <span>{selectedEntity.reception_schedule}</span>
+                    </div>
+                  )}
+                  {selectedEntity.deputy_slug && (
+                    <div className="pt-1">
+                      <Link
+                        href={`/people/${selectedEntity.deputy_slug}`}
+                        className="text-xs text-purple-700 hover:text-purple-900 font-semibold inline-flex items-center gap-1"
+                      >
+                        <span>Профиль депутата</span>
+                        <ChevronRight className="w-3 h-3" />
+                      </Link>
                     </div>
                   )}
                 </div>

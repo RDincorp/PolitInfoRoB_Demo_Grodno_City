@@ -113,8 +113,16 @@ export const PeopleListWithFilter: React.FC<Props> = ({ people }) => {
               >
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 font-bold text-base shrink-0 group-hover:bg-blue-50 group-hover:text-blue-700 transition-colors">
-                      {initialFirst}{initialLast}
+                    <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 font-bold text-base shrink-0 group-hover:bg-blue-50 group-hover:text-blue-700 transition-colors overflow-hidden">
+                      {person.photo_url ? (
+                        <img
+                          src={person.photo_url}
+                          alt={person.full_name}
+                          className="w-full h-full object-cover object-top"
+                        />
+                      ) : (
+                        <span>{initialFirst}{initialLast}</span>
+                      )}
                     </div>
                     <div>
                       <h3 className="font-bold text-slate-900 text-base group-hover:text-blue-700 transition-colors">

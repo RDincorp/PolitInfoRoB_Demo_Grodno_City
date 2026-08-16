@@ -42,9 +42,19 @@ export default function PersonProfilePage({ params }: PageProps) {
       <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
           <div className="flex items-start gap-4">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-slate-100 to-slate-200 border border-slate-300 flex items-center justify-center text-slate-700 font-bold text-2xl shrink-0 shadow-inner">
-              {person.first_name?.[0] || person.full_name[0]}
-              {person.last_name?.[0] || ''}
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-slate-100 to-slate-200 border border-slate-300 flex items-center justify-center text-slate-700 font-bold text-2xl shrink-0 shadow-inner overflow-hidden">
+              {person.photo_url ? (
+                <img
+                  src={person.photo_url}
+                  alt={person.full_name}
+                  className="w-full h-full object-cover object-top"
+                />
+              ) : (
+                <>
+                  {person.first_name?.[0] || person.full_name[0]}
+                  {person.last_name?.[0] || ''}
+                </>
+              )}
             </div>
             <div className="space-y-1">
               <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-100 text-blue-800">

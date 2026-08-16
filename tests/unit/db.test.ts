@@ -12,13 +12,13 @@ describe('DB Repository & Universal Search', () => {
     expect(grodno).not.toBeNull();
     expect(grodno?.name).toBe('Гродно');
     expect(grodno?.institutions.length).toBeGreaterThan(0);
-    expect(grodno?.districts.length).toBe(3);
+    expect(grodno?.districts.length).toBe(34);
   });
 
   it('correctly retrieves deputy profile with position, district, and reception info', () => {
-    const deputy = DBRepository.getPersonBySlug('belyavskiy-aleksandr-sergeevich');
+    const deputy = DBRepository.getPersonBySlug('zaretskaya-tatyana-aleksandrovna');
     expect(deputy).not.toBeNull();
-    expect(deputy?.full_name).toBe('Белявский Александр Сергеевич');
+    expect(deputy?.full_name).toBe('Зарецкая Татьяна Александровна');
     expect(deputy?.positions.length).toBeGreaterThan(0);
     expect(deputy?.districts.length).toBeGreaterThan(0);
     expect(deputy?.districts[0].district.number).toBe(1);

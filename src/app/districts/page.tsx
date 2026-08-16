@@ -31,13 +31,13 @@ export default function DistrictsPage() {
       <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-3">
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-700">
           <CheckCircle className="w-4 h-4" />
-          <span>Гродненский городской Совет депутатов 29-го созыва</span>
+          <span>Официальный реестр избирательных округов</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
           Избирательные округа города Гродно
         </h1>
         <p className="text-sm text-slate-600 max-w-3xl leading-relaxed">
-          Границы округов, перечень закрепленных улиц и адресов, а также депутаты, представляющие интересы жителей соответствующей территории.
+          Официальные границы избирательных округов, перечень закрепленных улиц и адресов, а также депутаты Гродненского городского Совета 29-го созыва и Палаты представителей Национального собрания РБ VIII созыва.
         </p>
       </div>
 

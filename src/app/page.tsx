@@ -49,17 +49,17 @@ export default function HomePage() {
               <Link href="/people/fedorov-oleg-gennadevich" className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors">
                 Фёдоров О. Г.
               </Link>
-              <Link href="/districts/tsentralnyy-izbiratelnyy-okrug-1" className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors">
+              <Link href="/people/potapova-elena-stanislavovna" className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors">
+                Потапова Е. С.
+              </Link>
+              <Link href="/districts/kalozhskiy-izbiratelnyy-okrug-1" className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors">
+                Каложский № 1
+              </Link>
+              <Link href="/districts/tsentralnyy-izbiratelnyy-okrug-2" className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors">
                 ул. Советская
               </Link>
-              <Link href="/districts/tsentralnyy-izbiratelnyy-okrug-1" className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors">
-                Округ № 1
-              </Link>
               <Link href="/competences/zhilischno-kommunalnye-voprosy" className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors">
-                ЖКХ и капремонт
-              </Link>
-              <Link href="/glossary#term-vns" className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors">
-                ВНС
+                ЖКХ и благоустройство
               </Link>
             </div>
           </div>

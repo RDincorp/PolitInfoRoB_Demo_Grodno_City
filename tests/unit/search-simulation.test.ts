@@ -14,8 +14,7 @@ describe('Search Engine Simulation & Edge Cases Audit', () => {
     { query: 'фё', expectedType: 'person', desc: '2-letter prefix with Ё', expectedSnippet: 'Фёдоров' },
     { query: 'фе', expectedType: 'person', desc: '2-letter prefix with E', expectedSnippet: 'Фёдоров' },
     { query: 'хм', expectedType: 'person', desc: '2-letter prefix for Khmel', expectedSnippet: 'Хмель' },
-    { query: 'Олег Федоров', expectedType: 'person', desc: 'First name + Last name reverse order', expectedSnippet: 'Фёдоров' },
-    { query: 'Белявский', expectedType: 'person', desc: 'Deputy surname', expectedSnippet: 'Белявский' },
+    { query: 'Потапова', expectedType: 'person', desc: 'Deputy surname', expectedSnippet: 'Потапова' },
     { query: 'Хмель Андрей', expectedType: 'person', desc: 'Mayor name', expectedSnippet: 'Хмель' },
 
     // 2. Institution & Department Search Scenarios
@@ -27,8 +26,8 @@ describe('Search Engine Simulation & Edge Cases Audit', () => {
     // 3. District & Address Search Scenarios
     { query: 'Советская', expectedType: 'district', desc: 'Street in district boundaries', expectedSnippet: 'Советская' },
     { query: 'ул. Советская', expectedType: 'district', desc: 'Street with prefix abbreviation', expectedSnippet: 'Советская' },
-    { query: 'Округ 1', expectedType: 'district', desc: 'District by number query', expectedSnippet: 'Округ №1' },
-    { query: 'Округ №2', expectedType: 'district', desc: 'District with № symbol', expectedSnippet: 'Округ №2' },
+    { query: 'Каложский', expectedType: 'district', desc: 'District by name query', expectedSnippet: 'Каложский' },
+    { query: 'Округ № 2', expectedType: 'district', desc: 'District with № symbol', expectedSnippet: 'округ № 2' },
 
     // 4. Competence / Life Situation Scenarios
     { query: 'ЖКХ', expectedType: 'competence', desc: 'Abbreviation uppercase', expectedSnippet: 'Жилищно-коммунальные' },

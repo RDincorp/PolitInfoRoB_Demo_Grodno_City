@@ -49,7 +49,11 @@ export default function DistrictDetailPage({ params }: PageProps) {
                 Округ №{district.number}
               </span>
               <span className="text-xs text-slate-500">
-                Уровень: <strong className="text-slate-800">Гродненский городской Совет депутатов</strong>
+                Уровень: <strong className="text-slate-800">
+                  {district.level === 'national_assembly'
+                    ? 'Палата представителей Национального собрания РБ (VIII созыв)'
+                    : 'Гродненский городской Совет депутатов (29-й созыв)'}
+                </strong>
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
@@ -57,7 +61,7 @@ export default function DistrictDetailPage({ params }: PageProps) {
             </h1>
             {district.territory && (
               <p className="text-xs text-slate-500 font-medium mt-1">
-                Территория: {district.territory.name} (29-й созыв)
+                Территория: {district.territory.name}
               </p>
             )}
           </div>
@@ -80,7 +84,7 @@ export default function DistrictDetailPage({ params }: PageProps) {
           <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
             <p>{district.boundaries_description || 'Описание границ не указано в предоставленных источниках.'}</p>
             <p className="text-[11px] text-slate-500 pt-2 border-t border-slate-200">
-              ⚖️ <strong>Правовая основа:</strong> Решение Гродненской городской избирательной комиссии об образовании избирательных округов по выборам депутатов Гродненского городского Совета депутатов 29-го созыва. В соответствии с Избирательным кодексом РБ границы округов определяются перечнем адресов.
+              ⚖️ <strong>Правовая основа:</strong> Решение избирательной комиссии об образовании избирательных округов. В соответствии с Избирательным кодексом РБ границы округов определяются официальным перечнем адресов.
             </p>
           </div>
         </div>
@@ -96,14 +100,26 @@ export default function DistrictDetailPage({ params }: PageProps) {
             <div className="p-5 bg-purple-50/60 rounded-2xl border border-purple-200 space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-purple-200 text-purple-900 font-bold flex items-center justify-center text-lg">
-                    {deputy.person.first_name?.[0] || deputy.person.full_name[0]}
-                    {deputy.person.last_name?.[0] || ''}
+                  <div className="w-12 h-12 rounded-xl bg-purple-200 text-purple-900 font-bold flex items-center justify-center text-lg shrink-0 overflow-hidden">
+                    {deputy.person.photo_url ? (
+                      <img
+                        src={deputy.person.photo_url}
+                        alt={deputy.person.full_name}
+                        className="w-full h-full object-cover object-top"
+                      />
+                    ) : (
+                      <>
+                        {deputy.person.first_name?.[0] || deputy.person.full_name[0]}
+                        {deputy.person.last_name?.[0] || ''}
+                      </>
+                    )}
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 text-base">{deputy.person.full_name}</h3>
                     <p className="text-xs text-purple-800 font-medium">
-                      Депутат Гродненского городского Совета депутатов 29-го созыва
+                      {district.level === 'national_assembly'
+                        ? 'Депутат Палаты представителей Национального собрания РБ (VIII созыв)'
+                        : 'Депутат Гродненского городского Совета депутатов (29-й созыв)'}
                     </p>
                   </div>
                 </div>
