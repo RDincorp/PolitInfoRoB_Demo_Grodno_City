@@ -117,13 +117,31 @@ export default function CompetenceDetailPage({ params }: PageProps) {
 
         {/* Legal Basis */}
         {comp.legal_basis && (
-          <div className="space-y-2 pt-4 border-t border-slate-100">
+          <div className="space-y-3 pt-4 border-t border-slate-100">
             <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
               <FileText className="w-4 h-4 text-blue-600" />
-              Законодательная и правовая база:
+              Законодательная и правовая основа (Pravo.by):
             </h2>
-            <div className="p-3.5 bg-blue-50/50 rounded-xl border border-blue-100 text-xs text-slate-700">
-              {comp.legal_basis}
+            <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100 space-y-3">
+              <p className="text-xs text-slate-800 leading-relaxed font-medium">
+                {comp.legal_basis}
+              </p>
+              {comp.legal_basis_url && (
+                <div className="pt-2 border-t border-blue-200/50 flex flex-wrap items-center justify-between gap-2">
+                  <a
+                    href={comp.legal_basis_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 hover:text-blue-900 hover:underline"
+                  >
+                    <span>Официальный текст документа на Pravo.by</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-100 text-blue-800 border border-blue-200">
+                    Первоисточник: Национальный правовой Интернет-портал РБ
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         )}

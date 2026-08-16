@@ -11,6 +11,7 @@ import {
   PersonDistrict,
   Competence,
   LegalDocument,
+  GlossaryTerm,
   Source,
   SourceSnapshot,
   ExtractedRecord,
@@ -38,6 +39,7 @@ export interface DatabaseState {
   person_districts: PersonDistrict[];
   competences: Competence[];
   legal_documents: LegalDocument[];
+  glossary_terms: GlossaryTerm[];
   sources: Source[];
   source_snapshots: SourceSnapshot[];
   extracted_records: ExtractedRecord[];
@@ -95,6 +97,7 @@ function getDefaultState(): DatabaseState {
     person_districts: [],
     competences: [],
     legal_documents: [],
+    glossary_terms: [],
     sources: [],
     source_snapshots: [],
     extracted_records: [],
@@ -194,10 +197,10 @@ export class DBRepository {
 
     // Search People
     if (!typeFilter || typeFilter === 'person') {
-      const matchedPeople = s.people.filter(
+      const matchedPeople = (s.people || []).filter(
         (p) =>
           p.status === 'published' &&
-          (p.full_name.toLowerCase().includes(clean) || p.slug.toLowerCase().includes(clean))
+          ((p.full_name && p.full_name.toLowerCase().includes(clean)) || (p.slug && p.slug.toLowerCase().includes(clean)))
       );
 
       for (const p of matchedPeople.slice(0, 10)) {
@@ -218,13 +221,13 @@ export class DBRepository {
 
     // Search Institutions
     if (!typeFilter || typeFilter === 'institution') {
-      const matchedInst = s.institutions.filter(
+      const matchedInst = (s.institutions || []).filter(
         (i) =>
           i.status === 'published' &&
-          (i.name.toLowerCase().includes(clean) ||
+          ((i.name && i.name.toLowerCase().includes(clean)) ||
             (i.official_name && i.official_name.toLowerCase().includes(clean)) ||
             (i.short_name && i.short_name.toLowerCase().includes(clean)) ||
-            i.slug.toLowerCase().includes(clean))
+            (i.slug && i.slug.toLowerCase().includes(clean)))
       );
 
       for (const inst of matchedInst.slice(0, 10)) {
@@ -241,10 +244,10 @@ export class DBRepository {
 
     // Search Territories
     if (!typeFilter || typeFilter === 'territory') {
-      const matchedTerritories = s.territories.filter(
+      const matchedTerritories = (s.territories || []).filter(
         (t) =>
           t.status === 'published' &&
-          (t.name.toLowerCase().includes(clean) || t.slug.toLowerCase().includes(clean))
+          ((t.name && t.name.toLowerCase().includes(clean)) || (t.slug && t.slug.toLowerCase().includes(clean)))
       );
 
       for (const t of matchedTerritories.slice(0, 5)) {
@@ -261,11 +264,11 @@ export class DBRepository {
 
     // Search Electoral Districts
     if (!typeFilter || typeFilter === 'district') {
-      const matchedDistricts = s.electoral_districts.filter(
+      const matchedDistricts = (s.electoral_districts || []).filter(
         (d) =>
           d.status === 'published' &&
-          (d.name.toLowerCase().includes(clean) ||
-            String(d.number).includes(clean) ||
+          ((d.name && d.name.toLowerCase().includes(clean)) ||
+            (d.number !== undefined && String(d.number).includes(clean)) ||
             (d.boundaries_description && d.boundaries_description.toLowerCase().includes(clean)))
       );
 
@@ -298,10 +301,10 @@ export class DBRepository {
 
     // Search Competences
     if (!typeFilter || typeFilter === 'competence') {
-      const matchedCompetences = s.competences.filter(
+      const matchedCompetences = (s.competences || []).filter(
         (c) =>
           c.status === 'published' &&
-          (c.name.toLowerCase().includes(clean) ||
+          ((c.name && c.name.toLowerCase().includes(clean)) ||
             (c.description && c.description.toLowerCase().includes(clean)) ||
             (c.category && c.category.toLowerCase().includes(clean)))
       );
@@ -316,6 +319,30 @@ export class DBRepository {
           description: c.description,
           url: `/competences/${c.slug}`,
           badge: 'Вопрос / Компетенция',
+        });
+      }
+    }
+
+    // Search Glossary
+    if (!typeFilter || typeFilter === 'glossary') {
+      const glossaryTerms = s.glossary_terms || [];
+      const matchedTerms = glossaryTerms.filter(
+        (g) =>
+          (g.term && g.term.toLowerCase().includes(clean)) ||
+          (g.short_definition && g.short_definition.toLowerCase().includes(clean)) ||
+          (g.category_label && g.category_label.toLowerCase().includes(clean)) ||
+          (g.full_explanation && g.full_explanation.toLowerCase().includes(clean))
+      );
+
+      for (const g of matchedTerms.slice(0, 5)) {
+        results.push({
+          id: g.id,
+          type: 'glossary' as any,
+          title: g.term,
+          subtitle: g.category_label,
+          description: g.short_definition,
+          url: `/glossary#${g.slug}`,
+          badge: 'Термин / Глоссарий',
         });
       }
     }
@@ -596,6 +623,16 @@ export class DBRepository {
       department,
       territory,
     };
+  }
+
+  // --- Glossary ---
+  public static getGlossaryTerms(): GlossaryTerm[] {
+    return this.engine.getState().glossary_terms || [];
+  }
+
+  public static getGlossaryTermBySlug(slug: string): GlossaryTerm | null {
+    const terms = this.engine.getState().glossary_terms || [];
+    return terms.find((t) => t.slug === slug) || null;
   }
 
   // --- Sources & Registry ---

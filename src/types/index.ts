@@ -198,10 +198,26 @@ export interface Competence {
   department_id?: string | null;
   territory_id?: string | null;
   legal_basis?: string | null;
+  legal_basis_url?: string | null;
   status: DataStatus;
   created_at: string;
   updated_at: string;
 }
+
+export interface GlossaryTerm {
+  id: string;
+  term: string;
+  slug: string;
+  category: 'system' | 'representative' | 'executive' | 'electoral' | 'procedure';
+  category_label: string;
+  short_definition: string;
+  full_explanation: string;
+  legal_basis: string;
+  legal_basis_url: string;
+  examples?: string;
+  related_terms?: string[];
+}
+
 
 export interface LegalDocument {
   id: string;

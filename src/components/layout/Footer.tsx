@@ -50,6 +50,7 @@ export const Footer: React.FC = () => {
               <Link href="/institutions" className="hover:text-white transition-colors">Органы власти</Link>
               <Link href="/districts" className="hover:text-white transition-colors">Округа</Link>
               <Link href="/competences" className="hover:text-white transition-colors">Вопросы (ЖКХ)</Link>
+              <Link href="/glossary" className="hover:text-white transition-colors">Глоссарий терминов</Link>
               <Link href="/sources" className="hover:text-white transition-colors">Реестр источников</Link>
             </div>
           </div>

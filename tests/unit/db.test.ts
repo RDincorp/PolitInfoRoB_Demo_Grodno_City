@@ -50,4 +50,31 @@ describe('DB Repository & Universal Search', () => {
     const remainingQueue = DBRepository.getReviewQueue('pending');
     expect(remainingQueue.find((i) => i.id === firstItem.id)).toBeUndefined();
   });
+
+  it('correctly retrieves glossary terms and filters by slug', () => {
+    const terms = DBRepository.getGlossaryTerms();
+    expect(terms.length).toBeGreaterThanOrEqual(10);
+
+    const selfGov = DBRepository.getGlossaryTermBySlug('mestnoe-samoupravlenie');
+    expect(selfGov).not.toBeNull();
+    expect(selfGov?.term).toBe('Местное самоуправление');
+    expect(selfGov?.legal_basis_url).toContain('pravo.by');
+  });
+
+  it('searches glossary terms via universal search', () => {
+    const results = DBRepository.search('ВНС');
+    expect(results.length).toBeGreaterThan(0);
+    const glossaryResult = results.find((r) => r.type === 'glossary');
+    expect(glossaryResult).toBeDefined();
+    expect(glossaryResult?.title).toContain('Всебелорусское народное собрание');
+  });
+
+  it('verifies competences have valid legal basis with pravo.by links', () => {
+    const competences = DBRepository.getCompetences();
+    expect(competences.length).toBeGreaterThan(0);
+    const zhkh = competences.find((c) => c.slug === 'zhilischno-kommunalnye-voprosy');
+    expect(zhkh).toBeDefined();
+    expect(zhkh?.legal_basis).toContain('108-З');
+    expect(zhkh?.legal_basis_url).toContain('pravo.by');
+  });
 });

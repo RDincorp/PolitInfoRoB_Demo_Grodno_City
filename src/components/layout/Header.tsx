@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Landmark, MapPin, Users, Building2, CheckCircle, FileQuestion, ShieldCheck, Settings, Menu, X } from 'lucide-react';
+import { Landmark, MapPin, Users, Building2, CheckCircle, FileQuestion, BookOpen, ShieldCheck, Settings, Menu, X } from 'lucide-react';
 
 const NAV_ITEMS = [
   { href: '/', label: 'Карта и Главная', icon: MapPin },
@@ -13,6 +13,7 @@ const NAV_ITEMS = [
   { href: '/territories/grodno', label: 'Гродно (Пилот)', icon: MapPin },
   { href: '/districts', label: 'Округа', icon: CheckCircle },
   { href: '/competences', label: 'Вопросы / ЖКХ', icon: FileQuestion },
+  { href: '/glossary', label: 'Глоссарий', icon: BookOpen },
   { href: '/sources', label: 'Источники', icon: ShieldCheck },
 ];
 
