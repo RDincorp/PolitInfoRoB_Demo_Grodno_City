@@ -26,6 +26,7 @@ import {
   SearchResultItem,
 } from '@/types';
 import { executeUniversalSearch } from '@/lib/search';
+import embeddedDbJson from '../../../data/db.json';
 
 export interface DatabaseState {
   countries: Country[];
@@ -85,6 +86,9 @@ function getDbFilePath(): string {
 }
 
 function getDefaultState(): DatabaseState {
+  if (embeddedDbJson && typeof embeddedDbJson === 'object') {
+    return embeddedDbJson as unknown as DatabaseState;
+  }
   return {
     countries: [],
     regions: [],
@@ -138,9 +142,7 @@ class StorageEngine {
         console.error('Error loading db.json:', e);
       }
     }
-    const defaultState = getDefaultState();
-    this.save(defaultState);
-    return defaultState;
+    return getDefaultState();
   }
 
   public save(stateToSave?: DatabaseState): void {
