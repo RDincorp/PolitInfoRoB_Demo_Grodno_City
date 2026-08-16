@@ -11,6 +11,9 @@ describe('Search Engine Simulation & Edge Cases Audit', () => {
     // 1. Person Search Scenarios
     { query: 'Фёдоров', expectedType: 'person', desc: 'Exact Cyrillic with Ё', expectedSnippet: 'Фёдоров' },
     { query: 'Федоров', expectedType: 'person', desc: 'Cyrillic with Е instead of Ё', expectedSnippet: 'Фёдоров' },
+    { query: 'фё', expectedType: 'person', desc: '2-letter prefix with Ё', expectedSnippet: 'Фёдоров' },
+    { query: 'фе', expectedType: 'person', desc: '2-letter prefix with E', expectedSnippet: 'Фёдоров' },
+    { query: 'хм', expectedType: 'person', desc: '2-letter prefix for Khmel', expectedSnippet: 'Хмель' },
     { query: 'Олег Федоров', expectedType: 'person', desc: 'First name + Last name reverse order', expectedSnippet: 'Фёдоров' },
     { query: 'Белявский', expectedType: 'person', desc: 'Deputy surname', expectedSnippet: 'Белявский' },
     { query: 'Хмель Андрей', expectedType: 'person', desc: 'Mayor name', expectedSnippet: 'Хмель' },

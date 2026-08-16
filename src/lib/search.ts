@@ -43,18 +43,21 @@ export function extractSearchTokens(query: string): string[] {
  * Checks if a token matches any word in the target text (exact or prefix stem match).
  */
 function tokenMatchesWords(token: string, targetWords: string[]): boolean {
-  if (token.length <= 2) {
-    return targetWords.some((w) => w === token || (token.length === 1 && /^\d+$/.test(token) && w === token));
+  if (token.length === 1) {
+    return targetWords.some((w) => w === token || (/^\d+$/.test(token) && w === token) || w.startsWith(token));
   }
 
-  // Check prefix stem for words >= 4 chars
+  // Match exact word or word-level prefix (e.g. 'фе' -> 'федоров', 'со' -> 'советская')
+  if (targetWords.some((w) => w === token || w.startsWith(token))) {
+    return true;
+  }
+
+  // Check prefix stem for words >= 4 chars (handles Russian grammar endings)
   const stemLen = token.length >= 7 ? token.length - 2 : token.length >= 5 ? token.length - 1 : token.length;
   const stem = token.substring(0, stemLen);
 
   return targetWords.some((w) => {
-    if (w === token) return true;
-    if (w.startsWith(token)) return true;
-    if (stem.length >= 4 && w.startsWith(stem)) return true;
+    if (stem.length >= 3 && w.startsWith(stem)) return true;
     return false;
   });
 }
