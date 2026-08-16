@@ -382,13 +382,6 @@
       "status": "published",
       "created_at": "2026-08-15T12:00:00Z",
       "updated_at": "2026-08-15T12:00:00Z"
-    },
-    {
-      "reception_schedule": "Второй и четвертый вторник месяца: 16.00 – 19.00",
-      "id": "p-1786876119875",
-      "status": "published",
-      "created_at": "2026-08-16T10:28:39.875Z",
-      "updated_at": "2026-08-16T10:28:39.875Z"
     }
   ],
   "positions": [
@@ -1033,16 +1026,6 @@
       "verified_at": "2026-08-15T12:00:00Z",
       "status": "published",
       "created_at": "2026-08-15T12:00:00Z"
-    },
-    {
-      "id": "es-1786876119875-lcp41",
-      "entity_type": "person",
-      "entity_id": "p-1786876119875",
-      "source_id": "src-gorsovet-official",
-      "source_snapshot_id": "snap-gorsovet-2026-08-15",
-      "verified_at": "2026-08-16T10:28:39.875Z",
-      "status": "published",
-      "created_at": "2026-08-16T10:28:39.875Z"
     }
   ],
   "review_queue": [
@@ -1065,9 +1048,9 @@
       },
       "source_id": "src-gorsovet-official",
       "source_snapshot_id": "snap-gorsovet-2026-08-15",
-      "status": "approved",
-      "reviewed_by": "TestAdmin",
-      "reviewed_at": "2026-08-16T10:28:39.875Z",
+      "status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
       "reviewer_notes": null,
       "created_at": "2026-08-15T14:30:00Z"
     }
