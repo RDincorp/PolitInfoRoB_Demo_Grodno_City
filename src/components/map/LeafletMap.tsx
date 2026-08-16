@@ -794,10 +794,13 @@ export const LeafletMap: React.FC<Props> = ({
 
               {/* Boundaries info */}
               {selectedEntity.boundaries && (
-                <div className="text-xs text-slate-600 space-y-1">
-                  <span className="font-semibold text-slate-800 block">Границы и улицы:</span>
-                  <p className="line-clamp-4 leading-relaxed bg-slate-50 p-2.5 rounded border border-slate-200 text-[11px]">
+                <div className="text-xs text-slate-600 space-y-1.5">
+                  <span className="font-bold text-slate-800 block">Официальный перечень улиц:</span>
+                  <p className="line-clamp-4 leading-relaxed bg-slate-50 p-2.5 rounded border border-slate-200 text-[11px] text-slate-700">
                     {selectedEntity.boundaries}
+                  </p>
+                  <p className="text-[10px] text-slate-500 italic bg-amber-50/70 p-2 rounded border border-amber-200">
+                    ℹ️ <strong>Примечание:</strong> В РБ избирательные округа утверждаются в виде текстового перечня адресов (Решение городской избирательной комиссии). Контур на карте является визуализацией охвата улиц.
                   </p>
                 </div>
               )}

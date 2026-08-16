@@ -77,8 +77,11 @@ export default function DistrictDetailPage({ params }: PageProps) {
             Официальное описание границ и перечень улиц
           </h2>
 
-          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
-            {district.boundaries_description || 'Описание границ не указано в предоставленных источниках.'}
+          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
+            <p>{district.boundaries_description || 'Описание границ не указано в предоставленных источниках.'}</p>
+            <p className="text-[11px] text-slate-500 pt-2 border-t border-slate-200">
+              ⚖️ <strong>Правовая основа:</strong> Решение Гродненской городской избирательной комиссии об образовании избирательных округов по выборам депутатов Гродненского городского Совета депутатов 29-го созыва. В соответствии с Избирательным кодексом РБ границы округов определяются перечнем адресов.
+            </p>
           </div>
         </div>
 
