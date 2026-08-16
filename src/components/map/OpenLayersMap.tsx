@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
   MapPin,
@@ -17,9 +17,7 @@ import {
   Info,
   Globe,
   Map as MapIcon,
-  CheckCircle2,
   X,
-  Compass,
 } from 'lucide-react';
 
 import Map from 'ol/Map';
@@ -29,11 +27,10 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import XYZ from 'ol/source/XYZ';
 import GeoJSON from 'ol/format/GeoJSON';
-import { fromLonLat, toLonLat } from 'ol/proj';
-import { Style, Fill, Stroke, Circle as CircleStyle, Text, Icon } from 'ol/style';
+import { fromLonLat } from 'ol/proj';
+import { Style, Fill, Stroke, Circle as CircleStyle, Text } from 'ol/style';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
-import Overlay from 'ol/Overlay';
 import { defaults as defaultControls } from 'ol/control';
 
 interface Props {
@@ -42,7 +39,7 @@ interface Props {
   onSelectEntity?: (entity: any) => void;
 }
 
-// Color palette for 30 electoral districts
+// 30 clean distinct pastel colors for electoral districts
 const DISTRICT_PALETTE = [
   '#0284c7', '#0d9488', '#16a34a', '#ca8a04', '#ea580c',
   '#dc2626', '#9333ea', '#4f46e5', '#2563eb', '#059669',
@@ -58,11 +55,9 @@ export const OpenLayersMap: React.FC<Props> = ({
   onSelectEntity,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
-  const popupRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<Map | null>(null);
-  const overlayRef = useRef<Overlay | null>(null);
 
-  // Layer references
+  // Layer refs
   const tileLayerRef = useRef<TileLayer<XYZ> | null>(null);
   const regionsLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
   const adminDistrictsLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
@@ -73,18 +68,17 @@ export const OpenLayersMap: React.FC<Props> = ({
   // States
   const [currentLevel, setCurrentLevel] = useState<'belarus' | 'grodno'>(initialLevel);
   const [selectedEntity, setSelectedEntity] = useState<any>(null);
-  const [hoveredFeatureInfo, setHoveredFeatureInfo] = useState<{ title: string; subtitle?: string } | null>(null);
+  const [hoveredInfo, setHoveredInfo] = useState<{ title: string; subtitle?: string; badge?: string } | null>(null);
   const [activeLayers, setActiveLayers] = useState({
     adminDistricts: true,
     districts: true,
     institutions: true,
   });
   const [baseMapType, setBaseMapType] = useState<'cadastre' | 'topo'>('cadastre');
-  const [isLoading, setIsLoading] = useState(true);
   const [locatingUser, setLocatingUser] = useState(false);
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
 
-  // Raw GeoJSON cache
+  // GeoJSON Cache
   const [geoData, setGeoData] = useState<{
     regions: any;
     adminDistricts: any;
@@ -92,7 +86,7 @@ export const OpenLayersMap: React.FC<Props> = ({
     institutions: any;
   }>({ regions: null, adminDistricts: null, districts: null, institutions: null });
 
-  // Ray-casting point in polygon
+  // Point in polygon Ray-casting
   const isPointInPolygon = (point: [number, number], vs: number[][]) => {
     const x = point[0];
     const y = point[1];
@@ -108,7 +102,7 @@ export const OpenLayersMap: React.FC<Props> = ({
     return inside;
   };
 
-  // 1. Fetch GeoJSON layers
+  // 1. Load GeoJSON
   useEffect(() => {
     let isMounted = true;
 
@@ -131,11 +125,9 @@ export const OpenLayersMap: React.FC<Props> = ({
 
         if (isMounted) {
           setGeoData({ regions, adminDistricts, districts, institutions });
-          setIsLoading(false);
         }
       } catch (err) {
         console.error('Failed to load GeoJSON layers', err);
-        if (isMounted) setIsLoading(false);
       }
     }
 
@@ -146,7 +138,7 @@ export const OpenLayersMap: React.FC<Props> = ({
     };
   }, []);
 
-  // 2. Initialize OpenLayers Map
+  // 2. Initialize OpenLayers
   useEffect(() => {
     if (!mapContainerRef.current || !geoData.regions || mapInstanceRef.current) return;
 
@@ -155,12 +147,13 @@ export const OpenLayersMap: React.FC<Props> = ({
       dataProjection: 'EPSG:4326',
     });
 
-    // Base Tile Source (PKK / GovTech Cadastral & Topo Layers)
-    const cadastreUrl = 'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-    const topoUrl = 'https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+    // Base Tile Source (Clean Light Topography / Cadastral Base)
+    const cadastreUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const topoUrl = 'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png';
 
     const tileSource = new XYZ({
       url: baseMapType === 'cadastre' ? cadastreUrl : topoUrl,
+      crossOrigin: 'anonymous',
       attributions: '© Публичная кадастровая карта Республики Беларусь (ГУП «НКА») | Госкомимущество РБ',
       maxZoom: 19,
     });
@@ -182,17 +175,17 @@ export const OpenLayersMap: React.FC<Props> = ({
         const isGrodno = props.name === 'Гродненская область' || props.slug === 'grodnenskaya-oblast';
         return new Style({
           fill: new Fill({
-            color: isGrodno ? 'rgba(5, 150, 105, 0.22)' : 'rgba(100, 116, 139, 0.12)',
+            color: isGrodno ? 'rgba(5, 150, 105, 0.25)' : 'rgba(148, 163, 184, 0.15)',
           }),
           stroke: new Stroke({
             color: isGrodno ? '#047857' : '#94a3b8',
-            width: isGrodno ? 2.5 : 1.5,
+            width: isGrodno ? 3 : 1.5,
           }),
           text: new Text({
             text: props.name || '',
-            font: isGrodno ? 'bold 12px sans-serif' : '11px sans-serif',
+            font: isGrodno ? 'bold 13px sans-serif' : '11px sans-serif',
             fill: new Fill({ color: isGrodno ? '#064e3b' : '#334155' }),
-            stroke: new Stroke({ color: '#ffffff', width: 2.5 }),
+            stroke: new Stroke({ color: '#ffffff', width: 3 }),
           }),
         });
       },
@@ -212,19 +205,12 @@ export const OpenLayersMap: React.FC<Props> = ({
         const isLeninskiy = props.slug === 'leninskiy-rayon' || props.name?.includes('Ленинский');
         return new Style({
           fill: new Fill({
-            color: isLeninskiy ? 'rgba(59, 130, 246, 0.08)' : 'rgba(245, 158, 11, 0.08)',
+            color: isLeninskiy ? 'rgba(37, 99, 235, 0.04)' : 'rgba(217, 119, 6, 0.04)',
           }),
           stroke: new Stroke({
             color: isLeninskiy ? '#2563eb' : '#d97706',
-            width: 2.5,
-            lineDash: [6, 6],
-          }),
-          text: new Text({
-            text: props.name || '',
-            font: 'bold 13px sans-serif',
-            fill: new Fill({ color: isLeninskiy ? '#1e40af' : '#92400e' }),
-            stroke: new Stroke({ color: '#ffffff', width: 3 }),
-            offsetY: isLeninskiy ? -20 : 20,
+            width: 3,
+            lineDash: [8, 6],
           }),
         });
       },
@@ -232,7 +218,7 @@ export const OpenLayersMap: React.FC<Props> = ({
     });
     adminDistrictsLayerRef.current = adminDistrictsLayer;
 
-    // --- C. 30 Electoral Districts Layer ---
+    // --- C. 30 Electoral Districts Layer (Seamless, Non-Overlapping) ---
     const electoralSource = new VectorSource({
       features: geojsonFormat.readFeatures(geoData.districts),
     });
@@ -243,11 +229,11 @@ export const OpenLayersMap: React.FC<Props> = ({
         const props = feature.getProperties();
         const num = props.number || 1;
         const color = DISTRICT_PALETTE[(num - 1) % DISTRICT_PALETTE.length];
-        const isSelected = selectedEntity?.id === props.id || selectedEntity?.slug === props.slug;
+        const isSelected = selectedEntity?.id === props.id || selectedEntity?.number === num;
 
         return new Style({
           fill: new Fill({
-            color: isSelected ? `${color}4D` : `${color}26`, // 30% or 15% opacity
+            color: isSelected ? `${color}55` : `${color}22`,
           }),
           stroke: new Stroke({
             color: isSelected ? '#0f172a' : color,
@@ -255,7 +241,7 @@ export const OpenLayersMap: React.FC<Props> = ({
           }),
           text: new Text({
             text: `№${num}`,
-            font: 'bold 11px sans-serif',
+            font: isSelected ? 'bold 12px sans-serif' : 'bold 10px sans-serif',
             fill: new Fill({ color: isSelected ? '#0f172a' : color }),
             stroke: new Stroke({ color: '#ffffff', width: 3 }),
           }),
@@ -265,7 +251,7 @@ export const OpenLayersMap: React.FC<Props> = ({
     });
     electoralDistrictsLayerRef.current = electoralDistrictsLayer;
 
-    // --- D. Institutions Layer ---
+    // --- D. Institutions Layer (Clean dots without cluttering text labels) ---
     const institutionsSource = new VectorSource({
       features: geojsonFormat.readFeatures(geoData.institutions),
     });
@@ -275,20 +261,13 @@ export const OpenLayersMap: React.FC<Props> = ({
       style: (feature) => {
         const props = feature.getProperties();
         const isExecutive = props.category === 'executive' || props.type === 'executive';
-        const pinColor = isExecutive ? '#047857' : '#7c3aed';
+        const isSelected = selectedEntity?.id === props.id;
 
         return new Style({
           image: new CircleStyle({
-            radius: 7,
-            fill: new Fill({ color: pinColor }),
+            radius: isSelected ? 8 : 6,
+            fill: new Fill({ color: isExecutive ? '#059669' : '#7c3aed' }),
             stroke: new Stroke({ color: '#ffffff', width: 2.5 }),
-          }),
-          text: new Text({
-            text: props.short_name || props.name || '',
-            font: 'bold 10px sans-serif',
-            fill: new Fill({ color: '#1e293b' }),
-            stroke: new Stroke({ color: '#ffffff', width: 2.5 }),
-            offsetY: 15,
           }),
         });
       },
@@ -310,12 +289,12 @@ export const OpenLayersMap: React.FC<Props> = ({
     });
     userMarkerLayerRef.current = userMarkerLayer;
 
-    // --- Initial View ---
+    // Initial Coordinates
     const centerCoords =
       currentLevel === 'belarus'
         ? fromLonLat([27.95, 53.70])
         : fromLonLat([23.834, 53.684]);
-    const zoomLevel = currentLevel === 'belarus' ? 6.5 : 12.5;
+    const zoomLevel = currentLevel === 'belarus' ? 6.5 : 12.8;
 
     const view = new View({
       center: centerCoords,
@@ -324,7 +303,6 @@ export const OpenLayersMap: React.FC<Props> = ({
       maxZoom: 18,
     });
 
-    // Create Map Instance
     const map = new Map({
       target: mapContainerRef.current,
       layers: [
@@ -338,29 +316,14 @@ export const OpenLayersMap: React.FC<Props> = ({
       view: view,
       controls: defaultControls({
         zoom: true,
-        attribution: true,
+        attribution: false,
         rotate: false,
       }),
     });
 
     mapInstanceRef.current = map;
 
-    // Popup Overlay setup
-    if (popupRef.current) {
-      const overlay = new Overlay({
-        element: popupRef.current,
-        autoPan: {
-          animation: { duration: 250 },
-        },
-        positioning: 'bottom-center',
-        stopEvent: false,
-        offset: [0, -10],
-      });
-      map.addOverlay(overlay);
-      overlayRef.current = overlay;
-    }
-
-    // --- Pointer Move (Hover interaction) ---
+    // Pointer move / Hover handler
     map.on('pointermove', (evt) => {
       if (evt.dragging) return;
       const pixel = map.getEventPixel(evt.originalEvent);
@@ -371,22 +334,24 @@ export const OpenLayersMap: React.FC<Props> = ({
       if (feature) {
         const props = feature.getProperties();
         if (props.deputy) {
-          setHoveredFeatureInfo({
+          setHoveredInfo({
+            badge: `Округ №${props.number}`,
             title: props.name || `Округ №${props.number}`,
             subtitle: `Депутат: ${props.deputy.person.full_name}`,
           });
-        } else if (props.name) {
-          setHoveredFeatureInfo({
-            title: props.name,
-            subtitle: props.category === 'executive' ? 'Орган исполнительной власти' : props.description,
+        } else if (props.short_name || props.name) {
+          setHoveredInfo({
+            badge: props.category === 'executive' ? 'Исполнительная власть' : 'Госорган',
+            title: props.short_name || props.name,
+            subtitle: props.address,
           });
         }
       } else {
-        setHoveredFeatureInfo(null);
+        setHoveredInfo(null);
       }
     });
 
-    // --- Click interaction ---
+    // Single Click handler
     map.on('singleclick', (evt) => {
       let foundFeature: Feature | null = null;
       map.forEachFeatureAtPixel(evt.pixel, (feat) => {
@@ -398,13 +363,12 @@ export const OpenLayersMap: React.FC<Props> = ({
       if (foundFeature) {
         const props = (foundFeature as Feature).getProperties();
 
-        // If clicked on Grodno region from Belarus level -> switch to Grodno
         if (currentLevel === 'belarus' && (props.name === 'Гродненская область' || props.slug === 'grodnenskaya-oblast')) {
           switchLevel('grodno');
           return;
         }
 
-        // Electoral District Click
+        // District Click
         if (props.number !== undefined) {
           const entity = {
             id: props.id || `dist-${props.number}`,
@@ -439,13 +403,12 @@ export const OpenLayersMap: React.FC<Props> = ({
           return;
         }
       } else {
-        // Deselect if clicked outside
         setSelectedEntity(null);
         electoralDistrictsLayer.changed();
       }
     });
 
-    // Select initial district if requested via props
+    // Initial selected district if slug is provided
     if (selectedDistrictSlug && geoData.districts?.features) {
       const match = geoData.districts.features.find((f: any) => f.properties.slug === selectedDistrictSlug);
       if (match) {
@@ -469,7 +432,7 @@ export const OpenLayersMap: React.FC<Props> = ({
     };
   }, [geoData, currentLevel]);
 
-  // 3. Update layer visibility when activeLayers state changes
+  // Update visibility on layer toggle
   useEffect(() => {
     if (adminDistrictsLayerRef.current) {
       adminDistrictsLayerRef.current.setVisible(currentLevel === 'grodno' && activeLayers.adminDistricts);
@@ -485,21 +448,22 @@ export const OpenLayersMap: React.FC<Props> = ({
     }
   }, [activeLayers, currentLevel]);
 
-  // 4. Update base map source when baseMapType changes
+  // Update tile layer source on baseMapType change
   useEffect(() => {
     if (!tileLayerRef.current) return;
-    const cadastreUrl = 'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-    const topoUrl = 'https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+    const cadastreUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const topoUrl = 'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png';
 
     const newSource = new XYZ({
       url: baseMapType === 'cadastre' ? cadastreUrl : topoUrl,
+      crossOrigin: 'anonymous',
       attributions: '© Публичная кадастровая карта Республики Беларусь (ГУП «НКА») | Госкомимущество РБ',
       maxZoom: 19,
     });
     tileLayerRef.current.setSource(newSource);
   }, [baseMapType]);
 
-  // Switch Level helper
+  // Switch Level
   const switchLevel = (level: 'belarus' | 'grodno') => {
     setCurrentLevel(level);
     setSelectedEntity(null);
@@ -515,13 +479,13 @@ export const OpenLayersMap: React.FC<Props> = ({
     } else {
       view.animate({
         center: fromLonLat([23.834, 53.684]),
-        zoom: 12.5,
+        zoom: 12.8,
         duration: 700,
       });
     }
   };
 
-  // 5. Geolocation ("Определить мой округ")
+  // GPS Geolocation
   const locateUserDistrict = () => {
     if (!navigator.geolocation) {
       setLocationMessage('Геолокация не поддерживается вашим браузером.');
@@ -529,7 +493,7 @@ export const OpenLayersMap: React.FC<Props> = ({
     }
 
     setLocatingUser(true);
-    setLocationMessage('Определение точных координат...');
+    setLocationMessage('Определение координат...');
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -539,7 +503,6 @@ export const OpenLayersMap: React.FC<Props> = ({
 
         if (!mapInstanceRef.current) return;
 
-        // Animate map to user position
         const userPoint = fromLonLat([lng, lat]);
         mapInstanceRef.current.getView().animate({
           center: userPoint,
@@ -547,14 +510,12 @@ export const OpenLayersMap: React.FC<Props> = ({
           duration: 800,
         });
 
-        // Add user marker
         if (userMarkerLayerRef.current) {
           const source = userMarkerLayerRef.current.getSource();
           source?.clear();
           source?.addFeature(new Feature(new Point(userPoint)));
         }
 
-        // Find which district contains user coordinates
         if (geoData.districts?.features) {
           let matchedDistrict: any = null;
           for (const feat of geoData.districts.features) {
@@ -564,14 +525,6 @@ export const OpenLayersMap: React.FC<Props> = ({
                 matchedDistrict = feat.properties;
                 break;
               }
-            } else if (geom.type === 'MultiPolygon') {
-              for (const poly of geom.coordinates) {
-                if (isPointInPolygon([lng, lat], poly[0])) {
-                  matchedDistrict = feat.properties;
-                  break;
-                }
-              }
-              if (matchedDistrict) break;
             }
           }
 
@@ -587,35 +540,35 @@ export const OpenLayersMap: React.FC<Props> = ({
               type: 'district',
             };
             setSelectedEntity(entity);
-            setLocationMessage(`Вы находитесь в округе: ${matchedDistrict.name}`);
+            setLocationMessage(`Вы в округе: ${matchedDistrict.name}`);
             if (electoralDistrictsLayerRef.current) {
               electoralDistrictsLayerRef.current.changed();
             }
           } else {
-            setLocationMessage('Вы находитесь за пределами границ избирательных округов г. Гродно.');
+            setLocationMessage('Вы находитесь за пределами избирательных округов г. Гродно.');
           }
         }
       },
       (err) => {
         setLocatingUser(false);
-        setLocationMessage('Не удалось получить координаты. Разрешите доступ к геолокации в браузере.');
+        setLocationMessage('Разрешите доступ к геолокации в браузере.');
       },
       { timeout: 10000, enableHighAccuracy: true }
     );
   };
 
   return (
-    <div className="relative w-full bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
-      {/* Top Bar / Controls */}
+    <div className="relative w-full bg-slate-100 rounded-3xl overflow-hidden shadow-xl border border-slate-300">
+      {/* Top Header / Civic GovTech Navigation */}
       <div className="absolute top-4 left-4 right-4 z-10 flex flex-wrap items-center justify-between gap-2.5 pointer-events-none">
-        {/* Left: Level switcher & Title */}
-        <div className="flex items-center gap-2 pointer-events-auto bg-slate-900/90 backdrop-blur-md p-1.5 rounded-2xl border border-slate-700/80 shadow-lg">
+        {/* Left: Level switcher */}
+        <div className="flex items-center gap-1.5 pointer-events-auto bg-white/95 backdrop-blur-md p-1.5 rounded-2xl border border-slate-200/90 shadow-md">
           <button
             onClick={() => switchLevel('grodno')}
             className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
               currentLevel === 'grodno'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                ? 'bg-emerald-700 text-white shadow-xs'
+                : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
             <MapPin className="w-3.5 h-3.5" />
@@ -625,8 +578,8 @@ export const OpenLayersMap: React.FC<Props> = ({
             onClick={() => switchLevel('belarus')}
             className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
               currentLevel === 'belarus'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                ? 'bg-emerald-700 text-white shadow-xs'
+                : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
             <Globe className="w-3.5 h-3.5" />
@@ -634,36 +587,36 @@ export const OpenLayersMap: React.FC<Props> = ({
           </button>
         </div>
 
-        {/* Right: GPS Locator & Base Map Switcher */}
+        {/* Right: GPS & Map type */}
         <div className="flex items-center gap-2 pointer-events-auto">
           {currentLevel === 'grodno' && (
             <button
               onClick={locateUserDistrict}
               disabled={locatingUser}
-              className="px-3.5 py-2 bg-slate-900/90 hover:bg-slate-800 text-white border border-slate-700/80 rounded-2xl text-xs font-semibold backdrop-blur-md shadow-lg transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50"
+              className="px-3.5 py-2 bg-white/95 hover:bg-slate-50 text-slate-800 border border-slate-200 rounded-2xl text-xs font-bold backdrop-blur-md shadow-md transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50"
             >
-              <Crosshair className={`w-3.5 h-3.5 text-emerald-400 ${locatingUser ? 'animate-spin' : ''}`} />
+              <Crosshair className={`w-3.5 h-3.5 text-emerald-700 ${locatingUser ? 'animate-spin' : ''}`} />
               <span className="hidden sm:inline">Определить мой округ</span>
             </button>
           )}
 
-          <div className="bg-slate-900/90 backdrop-blur-md p-1 rounded-2xl border border-slate-700/80 shadow-lg flex items-center gap-1">
+          <div className="bg-white/95 backdrop-blur-md p-1 rounded-2xl border border-slate-200 shadow-md flex items-center gap-1">
             <button
               onClick={() => setBaseMapType('cadastre')}
-              className={`px-2.5 py-1.5 rounded-xl text-[11px] font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all ${
                 baseMapType === 'cadastre'
-                  ? 'bg-slate-800 text-emerald-400 border border-emerald-500/30'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               ПКК (НКА)
             </button>
             <button
               onClick={() => setBaseMapType('topo')}
-              className={`px-2.5 py-1.5 rounded-xl text-[11px] font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all ${
                 baseMapType === 'topo'
-                  ? 'bg-slate-800 text-emerald-400 border border-emerald-500/30'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Топооснова
@@ -674,36 +627,36 @@ export const OpenLayersMap: React.FC<Props> = ({
 
       {/* Layer Visibility Toggles (Bottom Left) */}
       {currentLevel === 'grodno' && (
-        <div className="absolute bottom-6 left-4 z-10 pointer-events-auto bg-slate-900/90 backdrop-blur-md p-2.5 rounded-2xl border border-slate-700/80 shadow-lg text-xs space-y-2 hidden sm:block">
-          <div className="flex items-center gap-1.5 text-slate-400 font-bold uppercase text-[10px] tracking-wider px-1">
-            <Layers className="w-3 h-3 text-emerald-400" />
+        <div className="absolute bottom-6 left-4 z-10 pointer-events-auto bg-white/95 backdrop-blur-md p-3 rounded-2xl border border-slate-200 shadow-lg text-xs space-y-2 hidden sm:block">
+          <div className="flex items-center gap-1.5 text-slate-700 font-bold uppercase text-[10px] tracking-wider px-1">
+            <Layers className="w-3.5 h-3.5 text-emerald-700" />
             Слои карты
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="flex items-center gap-2 cursor-pointer text-slate-200 hover:text-white px-1">
+            <label className="flex items-center gap-2 cursor-pointer text-slate-700 hover:text-slate-900 px-1 font-medium">
               <input
                 type="checkbox"
                 checked={activeLayers.districts}
                 onChange={(e) => setActiveLayers({ ...activeLayers, districts: e.target.checked })}
-                className="w-3.5 h-3.5 accent-emerald-500 rounded"
+                className="w-3.5 h-3.5 accent-emerald-700 rounded"
               />
               <span>Избирательные округа (30)</span>
             </label>
-            <label className="flex items-center gap-2 cursor-pointer text-slate-200 hover:text-white px-1">
+            <label className="flex items-center gap-2 cursor-pointer text-slate-700 hover:text-slate-900 px-1 font-medium">
               <input
                 type="checkbox"
                 checked={activeLayers.adminDistricts}
                 onChange={(e) => setActiveLayers({ ...activeLayers, adminDistricts: e.target.checked })}
-                className="w-3.5 h-3.5 accent-blue-500 rounded"
+                className="w-3.5 h-3.5 accent-blue-600 rounded"
               />
               <span>Административные районы (2)</span>
             </label>
-            <label className="flex items-center gap-2 cursor-pointer text-slate-200 hover:text-white px-1">
+            <label className="flex items-center gap-2 cursor-pointer text-slate-700 hover:text-slate-900 px-1 font-medium">
               <input
                 type="checkbox"
                 checked={activeLayers.institutions}
                 onChange={(e) => setActiveLayers({ ...activeLayers, institutions: e.target.checked })}
-                className="w-3.5 h-3.5 accent-purple-500 rounded"
+                className="w-3.5 h-3.5 accent-purple-600 rounded"
               />
               <span>Органы власти и приёмные</span>
             </label>
@@ -711,41 +664,46 @@ export const OpenLayersMap: React.FC<Props> = ({
         </div>
       )}
 
-      {/* Hover Info Tooltip (Top Center) */}
-      {hoveredFeatureInfo && !selectedEntity && (
-        <div className="absolute top-16 left-1/2 -translate-x-1/2 z-10 pointer-events-none bg-slate-900/95 backdrop-blur-md px-4 py-2 rounded-xl border border-slate-700 shadow-xl text-center max-w-sm">
-          <p className="text-xs font-bold text-white">{hoveredFeatureInfo.title}</p>
-          {hoveredFeatureInfo.subtitle && (
-            <p className="text-[11px] text-emerald-400 mt-0.5">{hoveredFeatureInfo.subtitle}</p>
+      {/* Neat Hover Tooltip */}
+      {hoveredInfo && !selectedEntity && (
+        <div className="absolute top-16 left-1/2 -translate-x-1/2 z-10 pointer-events-none bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl border border-slate-200 shadow-xl text-center max-w-sm animate-in fade-in duration-150">
+          {hoveredInfo.badge && (
+            <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wide bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100 mb-1 inline-block">
+              {hoveredInfo.badge}
+            </span>
+          )}
+          <p className="text-xs font-bold text-slate-900">{hoveredInfo.title}</p>
+          {hoveredInfo.subtitle && (
+            <p className="text-[11px] text-slate-600 mt-0.5">{hoveredInfo.subtitle}</p>
           )}
         </div>
       )}
 
-      {/* Location Status Message */}
+      {/* Geolocation Message */}
       {locationMessage && (
-        <div className="absolute top-16 right-4 z-10 pointer-events-auto bg-slate-900/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-emerald-500/50 shadow-xl text-xs text-emerald-300 flex items-center gap-2">
-          <Info className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+        <div className="absolute top-16 right-4 z-10 pointer-events-auto bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-emerald-500 shadow-xl text-xs text-emerald-900 font-medium flex items-center gap-2">
+          <Info className="w-4 h-4 text-emerald-700 shrink-0" />
           <span>{locationMessage}</span>
-          <button onClick={() => setLocationMessage(null)} className="hover:text-white ml-1">
-            <X className="w-3 h-3" />
+          <button onClick={() => setLocationMessage(null)} className="text-slate-400 hover:text-slate-700 ml-1">
+            <X className="w-3.5 h-3.5" />
           </button>
         </div>
       )}
 
-      {/* Main OpenLayers Container */}
+      {/* OpenLayers Map Canvas Container */}
       <div
         ref={mapContainerRef}
-        className="w-full h-[540px] sm:h-[620px] bg-slate-950 focus:outline-none"
+        className="w-full h-[540px] sm:h-[620px] bg-slate-100 focus:outline-none"
       />
 
-      {/* Right Drawer / Inspector Panel */}
+      {/* Right Inspector Drawer */}
       {selectedEntity && (
         <div className="absolute top-4 bottom-4 right-4 z-20 w-80 sm:w-96 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 p-5 overflow-y-auto flex flex-col justify-between space-y-4 animate-in slide-in-from-right duration-200">
           <div className="space-y-4">
-            {/* Header & Close Button */}
+            {/* Header */}
             <div className="flex items-start justify-between gap-2 border-b border-slate-100 pb-3">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-100 text-purple-800">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-100">
                   {selectedEntity.type === 'district' ? `Округ №${selectedEntity.number}` : 'Орган власти'}
                 </span>
                 <h3 className="font-extrabold text-slate-900 text-base sm:text-lg mt-1">
@@ -760,18 +718,17 @@ export const OpenLayersMap: React.FC<Props> = ({
               </button>
             </div>
 
-            {/* District Details */}
+            {/* District Content */}
             {selectedEntity.type === 'district' && (
               <div className="space-y-3.5">
-                {/* Elected Deputy */}
                 {selectedEntity.deputy ? (
-                  <div className="p-3.5 bg-purple-50/80 rounded-xl border border-purple-100 space-y-3">
-                    <span className="text-[10px] font-bold text-purple-900 uppercase flex items-center gap-1">
-                      <Users className="w-3 h-3" />
+                  <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 space-y-3">
+                    <span className="text-[10px] font-bold text-slate-600 uppercase flex items-center gap-1">
+                      <Users className="w-3 h-3 text-emerald-700" />
                       Избранный депутат:
                     </span>
                     <div className="flex items-start gap-3">
-                      <div className="w-12 h-12 rounded-xl bg-purple-200 text-purple-900 font-bold flex items-center justify-center text-base shrink-0 overflow-hidden shadow-xs">
+                      <div className="w-12 h-12 rounded-xl bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-base shrink-0 overflow-hidden shadow-xs">
                         {selectedEntity.deputy.person.photo_url ? (
                           <img
                             src={selectedEntity.deputy.person.photo_url}
@@ -788,7 +745,7 @@ export const OpenLayersMap: React.FC<Props> = ({
                         <h4 className="font-bold text-slate-900 text-sm leading-tight">
                           {selectedEntity.deputy.person.full_name}
                         </h4>
-                        <p className="text-[11px] text-purple-800 font-medium mt-0.5">
+                        <p className="text-[11px] text-emerald-800 font-semibold mt-0.5">
                           Депутат городского Совета 29-го созыва
                         </p>
                       </div>
@@ -796,14 +753,14 @@ export const OpenLayersMap: React.FC<Props> = ({
 
                     {/* Reception schedule */}
                     {selectedEntity.deputy.reception_schedule && (
-                      <div className="pt-2 border-t border-purple-200/60 text-xs text-slate-700 space-y-1">
+                      <div className="pt-2 border-t border-slate-200 text-xs text-slate-700 space-y-1">
                         <div className="flex items-start gap-1.5">
-                          <Calendar className="w-3.5 h-3.5 text-purple-600 shrink-0 mt-0.5" />
+                          <Calendar className="w-3.5 h-3.5 text-emerald-700 shrink-0 mt-0.5" />
                           <span className="text-[11px] leading-snug">{selectedEntity.deputy.reception_schedule}</span>
                         </div>
                         {selectedEntity.deputy.reception_phone && (
                           <div className="flex items-center gap-1.5">
-                            <Phone className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                            <Phone className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
                             <span className="text-[11px] font-semibold text-slate-900">{selectedEntity.deputy.reception_phone}</span>
                           </div>
                         )}
@@ -812,7 +769,7 @@ export const OpenLayersMap: React.FC<Props> = ({
 
                     <Link
                       href={`/people/${selectedEntity.deputy.person.slug}`}
-                      className="w-full inline-flex items-center justify-center gap-1 py-1.5 bg-purple-700 hover:bg-purple-800 text-white rounded-lg text-xs font-semibold transition-colors"
+                      className="w-full inline-flex items-center justify-center gap-1 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-semibold transition-colors"
                     >
                       Профиль депутата <ChevronRight className="w-3 h-3" />
                     </Link>
@@ -838,24 +795,24 @@ export const OpenLayersMap: React.FC<Props> = ({
               </div>
             )}
 
-            {/* Institution Details */}
+            {/* Institution Content */}
             {selectedEntity.type === 'institution' && (
               <div className="space-y-3 text-xs text-slate-700">
                 {selectedEntity.address && (
                   <div className="flex items-start gap-2">
-                    <MapPin className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <MapPin className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
                     <span>{selectedEntity.address}</span>
                   </div>
                 )}
                 {selectedEntity.phone && (
                   <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <Phone className="w-4 h-4 text-emerald-700 shrink-0" />
                     <span className="font-semibold text-slate-900">{selectedEntity.phone}</span>
                   </div>
                 )}
                 {selectedEntity.leader && (
-                  <div className="p-3 bg-emerald-50/70 rounded-xl border border-emerald-100">
-                    <span className="text-[10px] font-bold text-emerald-900 uppercase block">Руководитель:</span>
+                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <span className="text-[10px] font-bold text-slate-600 uppercase block">Руководитель:</span>
                     <p className="font-bold text-slate-900 mt-0.5">{selectedEntity.leader}</p>
                   </div>
                 )}
@@ -863,12 +820,12 @@ export const OpenLayersMap: React.FC<Props> = ({
             )}
           </div>
 
-          {/* District full passport link */}
+          {/* Bottom district link */}
           {selectedEntity.type === 'district' && (
             <div className="pt-2 border-t border-slate-100">
               <Link
                 href={`/districts/${selectedEntity.slug}`}
-                className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 bg-slate-100 hover:bg-purple-50 text-slate-800 hover:text-purple-800 rounded-xl text-xs font-bold transition-colors"
+                className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 bg-slate-100 hover:bg-emerald-50 text-slate-800 hover:text-emerald-800 rounded-xl text-xs font-bold transition-colors"
               >
                 Паспорт округа и границы <ExternalLink className="w-3 h-3" />
               </Link>
@@ -877,9 +834,9 @@ export const OpenLayersMap: React.FC<Props> = ({
         </div>
       )}
 
-      {/* Official Footnote / Provenance (Bottom Right) */}
-      <div className="absolute bottom-2 right-2 z-10 pointer-events-none text-[10px] text-slate-400 bg-slate-900/80 backdrop-blur-xs px-2.5 py-1 rounded-md border border-slate-800 flex items-center gap-1.5">
-        <ShieldCheck className="w-3 h-3 text-emerald-400" />
+      {/* Official Footnote / Provenance */}
+      <div className="absolute bottom-2 right-2 z-10 pointer-events-none text-[10px] text-slate-600 bg-white/90 backdrop-blur-xs px-2.5 py-1 rounded-md border border-slate-200 shadow-xs flex items-center gap-1.5">
+        <ShieldCheck className="w-3 h-3 text-emerald-700" />
         <span>Основа: Публичная кадастровая карта Республики Беларусь (ГУП «НКА»)</span>
       </div>
     </div>
